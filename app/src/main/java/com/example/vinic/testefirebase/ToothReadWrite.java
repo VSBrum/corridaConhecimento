@@ -16,7 +16,6 @@ import java.util.UUID;
 
 public class ToothReadWrite {
 
-    //------ ISSO DAQUI É UM MONTE DE DECLARAÇÃO DOIDA, NA REALIDADE NGM LIGA PRA ISSO --------//
     private static BluetoothAdapter adaptador = BluetoothAdapter.getDefaultAdapter();
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private static BluetoothSocket btSocket = null;
@@ -69,6 +68,7 @@ public class ToothReadWrite {
     }
     //--------- BLUETOOTH STATUS ----------//
     public static boolean statusTooth(){
+
         return adaptador.isEnabled();
     }
 

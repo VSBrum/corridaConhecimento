@@ -1,11 +1,13 @@
 package com.example.vinic.testefirebase;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,18 +21,20 @@ import java.util.Set;
 
 public class MainMenu extends AppCompatActivity {
 
-    Button começar;
+    Button comecar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
 
-        começar = findViewById(R.id.button);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        comecar = findViewById(R.id.btnComecar);
         /*Botão para ir para tela de pergunta e resposta, falta implementar o POST para o web service avisando que foi conectado
         e tratar para que so deixei iniciar quando tiver um carrinho conecado*/
-        começar.setOnClickListener(new View.OnClickListener() {
+        comecar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -45,15 +49,18 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        //comecar.setEnabled(false);
         return true;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.conectar: {
                 if (ToothReadWrite.statusTooth() != true) {
                     liga_bluetooth();
+                    //comecar.setEnabled(false);
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Dispositivos Pareados");
@@ -88,6 +95,9 @@ public class MainMenu extends AppCompatActivity {
                         }
                     });
                     builder.show();
+                    if(ToothReadWrite.statusTooth()){
+                        comecar.setBackgroundColor(R.color.Green);
+                    }
                 }
                 break;
             }

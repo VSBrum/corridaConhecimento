@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
 
     int cont = 1;
+
     String gabaritoA;
     String gabaritoB;
     String gabaritoC;
@@ -42,17 +44,18 @@ public class MainActivity extends AppCompatActivity {
     String textoRespostCorreta;
 
     TextView campoPergunta;
+    TextView rspCorreta;
 
-    RadioGroup radiogroup = findViewById(R.id.radioGroup);
+    RadioGroup radiogroup;
     RadioButton alternativaA;
     RadioButton alternativaB;
     RadioButton alternativaC;
     RadioButton alternativaD;
-    TextView rspCorreta;
 
     Button responder;
+    ImageView imgResposta;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    FirebaseDatabase database;
     DatabaseReference myRefPergunta;
     DatabaseReference myRefResposta;
 
@@ -65,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //(RadioButton)radioGroup.getChildAt(id);
-        //alternativaA = findViewById(R.id.alternativaA);
 
-        radiogroup = findViewById(R.id.radioGroup);
+        database = FirebaseDatabase.getInstance();
         myRefPergunta = database.getReference("pergunta");
         myRefResposta = database.getReference("respostas");
+
         campoPergunta = findViewById(R.id.campoPergunta);
         radiogroup = findViewById(R.id.radioGroup);
         alternativaA = findViewById(R.id.alternativaA);
@@ -77,8 +80,9 @@ public class MainActivity extends AppCompatActivity {
         alternativaC = findViewById(R.id.alternativaC);
         alternativaD = findViewById(R.id.alternativaD);
         rspCorreta = findViewById(R.id.rspCorreta);
-
         responder = findViewById(R.id.btnResposta);
+
+        imgResposta = findViewById(R.id.imgResposta);
 
         //Pegando a pergunta do firebase e mostrando na tela
         myRefPergunta.child("0").addValueEventListener(new ValueEventListener() {
@@ -106,14 +110,12 @@ public class MainActivity extends AppCompatActivity {
                 alternativaB.setTextColor(getResources().getColor(R.color.Black));
                 alternativaC.setTextColor(getResources().getColor(R.color.Black));
                 alternativaD.setTextColor(getResources().getColor(R.color.Black));
-                cont = 1;
 
                 Iterable<DataSnapshot> respostaChildren = respostaSnapshot.getChildren();
                 for (DataSnapshot resposta : respostaChildren) {
 
                     String tituloResposta = resposta.child("0").getValue().toString();
                     String respostaCorreta = resposta.child("1").getValue().toString();
-
 
                     switch (cont) {
                         case 1:
@@ -148,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 gabaritoD = "";
                             }
-
                     }
                     cont++;
                 }
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 RequestQueue queue = Volley.newRequestQueue(getBaseContext());
-                String url ="https://www.evonegocios.com/api_pi/alguem_respondeu.php";
+                String url = "https://www.evonegocios.com/api_pi/alguem_respondeu.php";
 
                 // Request a string response from the provided URL.
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -175,25 +176,29 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(String response) {
 
-                                Boolean acerto = false ;
+                                Boolean acerto = false;
 
-                                if ((alternativaA.isChecked() && gabaritoA.equals("alternativa A")) ||
-                                        (alternativaB.isChecked() && gabaritoB.equals("alternativa B")) ||
-                                                (alternativaC.isChecked() && gabaritoC.equals("alternativa C")) ||
-                                                (alternativaD.isChecked() && gabaritoD.equals("alternativa D"))
+                                if ((alternativaA.isChecked() && gabaritoA.equals("alternativa A")) || (alternativaB.isChecked() && gabaritoB.equals("alternativa B")) ||
+                                        (alternativaC.isChecked() && gabaritoC.equals("alternativa C")) || (alternativaD.isChecked() && gabaritoD.equals("alternativa D"))
                                         ) {
                                     ToothReadWrite.WriteBuffer((byte) 1);
-//                                    Context contexto = getApplicationContext();
-                                    acerto = true ;
+                                    //Context contexto = getApplicationContext();
+                                    acerto = true;
+                                    //imgResposta.setImageResource(R.drawable.success);
+                                    //rspCorreta.setText(textoRespostCorreta);
+                                    setContentView(R.layout.resposta_alternativa);
+
+                                }else{
+                                   // rspCorreta.setText(textoRespostCorreta);
+                                   // imgResposta.setImageResource(R.drawable.error);
+                                    setContentView(R.layout.resposta_alternativa);
                                 }
-                                rspCorreta.setText(textoRespostCorreta);
-                                setContentView(R.layout.resposta_alternativa);
+
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //mTextView.setText("Serviço indisponível");
-
                     }
                 });
 // Add the request to the RequestQueue.
