@@ -2,7 +2,6 @@ package com.example.vinic.testefirebase;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.Volley;
 import com.android.volley.RequestQueue;
@@ -20,9 +18,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-import java.net.URL;
-import java.net.MalformedURLException;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     String textoRespostCorreta;
 
     TextView campoPergunta;
-    TextView rspCorreta;
+    TextView rspCorreta1, rspCorreta2;
 
     RadioGroup radiogroup;
     RadioButton alternativaA;
@@ -79,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
         alternativaB = findViewById(R.id.alternativaB);
         alternativaC = findViewById(R.id.alternativaC);
         alternativaD = findViewById(R.id.alternativaD);
-        rspCorreta = findViewById(R.id.rspCorreta);
+        rspCorreta1 = findViewById(R.id.rspCorreta1);
+        rspCorreta2 = findViewById(R.id.rspCorreta2);
         responder = findViewById(R.id.btnResposta);
 
         imgResposta = findViewById(R.id.imgResposta);
@@ -179,21 +175,17 @@ public class MainActivity extends AppCompatActivity {
                                 Boolean acerto = false;
 
                                 if ((alternativaA.isChecked() && gabaritoA.equals("alternativa A")) || (alternativaB.isChecked() && gabaritoB.equals("alternativa B")) ||
-                                        (alternativaC.isChecked() && gabaritoC.equals("alternativa C")) || (alternativaD.isChecked() && gabaritoD.equals("alternativa D"))
-                                        ) {
+                                    (alternativaC.isChecked() && gabaritoC.equals("alternativa C")) || (alternativaD.isChecked() && gabaritoD.equals("alternativa D"))
+                                     ){
                                     ToothReadWrite.WriteBuffer((byte) 1);
                                     //Context contexto = getApplicationContext();
                                     acerto = true;
-                                    //imgResposta.setImageResource(R.drawable.success);
-                                    //rspCorreta.setText(textoRespostCorreta);
-                                    setContentView(R.layout.resposta_alternativa);
-
-                                }else{
-                                   // rspCorreta.setText(textoRespostCorreta);
-                                   // imgResposta.setImageResource(R.drawable.error);
-                                    setContentView(R.layout.resposta_alternativa);
+                                    //rspCorreta1.setText(textoRespostCorreta);
+                                    setContentView(R.layout.resposta_alternativa_success);
+                                } else {
+                                    //rspCorreta2.setText(textoRespostCorreta);
+                                    setContentView(R.layout.resposta_alternativa_error);
                                 }
-
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -203,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 // Add the request to the RequestQueue.
                 queue.add(stringRequest);
+
             }
         });
     }
