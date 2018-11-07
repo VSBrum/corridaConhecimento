@@ -2,6 +2,7 @@ package com.example.vinic.testefirebase;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -101,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot respostaSnapshot) {
 
-                radiogroup.clearCheck();
                 alternativaA.setTextColor(getResources().getColor(R.color.Black));
                 alternativaB.setTextColor(getResources().getColor(R.color.Black));
                 alternativaC.setTextColor(getResources().getColor(R.color.Black));
@@ -168,23 +168,23 @@ public class MainActivity extends AppCompatActivity {
                 // Request a string response from the provided URL.
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
-                            @SuppressLint("ResourceAsColor")
+                            //@SuppressLint("ResourceAsColor")
                             @Override
                             public void onResponse(String response) {
-
-                                Boolean acerto = false;
 
                                 if ((alternativaA.isChecked() && gabaritoA.equals("alternativa A")) || (alternativaB.isChecked() && gabaritoB.equals("alternativa B")) ||
                                     (alternativaC.isChecked() && gabaritoC.equals("alternativa C")) || (alternativaD.isChecked() && gabaritoD.equals("alternativa D"))
                                      ){
                                     ToothReadWrite.WriteBuffer((byte) 1);
-                                    //Context contexto = getApplicationContext();
-                                    acerto = true;
                                     //rspCorreta1.setText(textoRespostCorreta);
-                                    setContentView(R.layout.resposta_alternativa_success);
+                                    Intent rC = new Intent(MainActivity.this, resposta_alternativa_success.class);
+                                    startActivity(rC);
+                                    //setContentView(R.layout.resposta_alternativa_success);
                                 } else {
                                     //rspCorreta2.setText(textoRespostCorreta);
-                                    setContentView(R.layout.resposta_alternativa_error);
+                                    Intent rE = new Intent(MainActivity.this, resposta_alternativa_error.class);
+                                    startActivity(rE);
+                                    //setContentView(R.layout.resposta_alternativa_error);
                                 }
                             }
                         }, new Response.ErrorListener() {
