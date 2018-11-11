@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="148dp"
         android:layout_marginStart="148dp"
-        android:text="Responder"
+        android:text="@string/responder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -25,7 +25,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Pergunta:"
+        android:text="@string/pergunta"
         android:gravity="center"
         android:textColor="@color/Black"
         android:textSize="17sp"
@@ -37,13 +37,14 @@
 
     <TextView
         android:id="@+id/campoPergunta"
-        android:layout_width="378dp"
-        android:layout_height="155dp"
+        android:layout_width="314dp"
+        android:layout_height="171dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="124dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:paddingLeft="2dp"
+        android:paddingEnd="2dp"
+        android:paddingStart="2dp"
         android:textColor="@color/Black"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +52,7 @@
         app:layout_constraintHorizontal_bias="0.039"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.048" />
+        app:layout_constraintVertical_bias="0.058" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -63,10 +64,10 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.81">
+        app:layout_constraintVertical_bias="0.777">
 
         <RadioButton
             android:id="@+id/alternativaA"
@@ -83,7 +84,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.33" />
+            app:layout_constraintVertical_bias="0.33"
+            tools:targetApi="o" />
 
         <RadioButton
             android:id="@+id/alternativaB"

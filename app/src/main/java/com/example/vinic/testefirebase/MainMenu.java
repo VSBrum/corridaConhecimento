@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,12 +17,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
+import java.util.List;
 import java.util.Set;
 
 public class MainMenu extends AppCompatActivity {
 
     Button comecar;
+    RadioButton statusBluetooth;
+    List <String> x;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,10 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.main_menu);
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        statusBluetooth = findViewById(R.id.statusBluetooth);
+
+        statusBluetooth.setEnabled(false);
 
         comecar = findViewById(R.id.btnComecar);
         /*Botão para ir para tela de pergunta e resposta, falta implementar o POST para o web service avisando que foi conectado
@@ -66,7 +75,7 @@ public class MainMenu extends AppCompatActivity {
                     builder.setTitle("Dispositivos Pareados");
                     final EditText input = new EditText(this);
                     int i = 0;
-                    Set<BluetoothDevice> pareados = ToothReadWrite.Pareados();
+                    final Set<BluetoothDevice> pareados = ToothReadWrite.Pareados();
                     if (pareados.size() > 0) {
                         for (BluetoothDevice device : pareados) {
                             i++;
@@ -96,7 +105,9 @@ public class MainMenu extends AppCompatActivity {
                     });
                     builder.show();
                     if(ToothReadWrite.statusTooth()){
-                        comecar.setBackgroundColor(R.color.Green);
+                        statusBluetooth.setEnabled(true);
+                        statusBluetooth.setChecked(true);
+                        statusBluetooth.setText("Conectado");
                     }
                 }
                 break;

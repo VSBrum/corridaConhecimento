@@ -25,13 +25,12 @@ public class ToothReadWrite {
 
     public ArrayAdapter<String> deviceslist;
 
-    //--------- AQUI EU FIZ MAS NAO SEI SE FUNCIONA, MAS SE FUNCIONASSE ERA PRA VER OS AMIGUINHOS -------//
+    //--------- Ver dispositivos Pareados -------//
     public static Set<BluetoothDevice> Pareados()
     {
         return adaptador.getBondedDevices();
     }
 
-    //------ USAMOS ESSA BAGAÇA ABAIXO PARA FECHAR O QUE DEU RUIM -------//
     private static void close(Closeable aConnectedObject) {
         if ( aConnectedObject == null ) return;
         try {
@@ -41,12 +40,11 @@ public class ToothReadWrite {
         aConnectedObject = null;
     }
 
-    //------ ISSO EU SEI LÁ É QUE, O ANDROID STUDIO COLOCOU AUTOMATICAMENTE -------//
     private UUID getSerialPortUUID() {
         return MY_UUID;
     }
 
-    //------ ISSO É BOM PQ A GNT USA PRA CONECTAR COM NOSSOS AMIGUINHOS -------//
+    //------ Conectar com dispositivos  pareados -------//
     public static void Connect(String DeviceMac) {
         try
         {
@@ -58,7 +56,6 @@ public class ToothReadWrite {
             instream = btSocket.getInputStream();
 
         }
-        //--------- AQUI É O FAMOSO CATCH QUE SE CRASHAR NÃO CRASHA -----------//
         catch (Exception e) {
             Log.v("Erro:",e.toString());
             close( instream );
@@ -101,9 +98,6 @@ public class ToothReadWrite {
 
     }
 
-    /*------- ESSA DESGRAÇA ME DEU MUITO TRABALHO E SERVE PRA LER AS CAPOEIRA QUE CHEGA
-              PRA VC USAR SEU ANIMAL É SÓ JOGAR EM UM TEXTVIEW+COUNTDOWNTIMER -------*/
-
     public static String ReadBuffer() {
         byte[] buffer = new byte[1024];
         int bytes;
@@ -134,6 +128,4 @@ public class ToothReadWrite {
             e.printStackTrace();
         }
     }
-
-
 }

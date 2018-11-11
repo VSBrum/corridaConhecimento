@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String textoRespostCorreta = "";
     int cont = 1;
 
     String gabaritoA;
@@ -37,10 +38,9 @@ public class MainActivity extends AppCompatActivity {
     String gabaritoD;
     String perguntaAnteriror;
     String value;
-    String textoRespostCorreta;
 
     TextView campoPergunta;
-    TextView rspCorreta1, rspCorreta2;
+    TextView rspCorreta2;
 
     RadioGroup radiogroup;
     RadioButton alternativaA;
@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         alternativaB = findViewById(R.id.alternativaB);
         alternativaC = findViewById(R.id.alternativaC);
         alternativaD = findViewById(R.id.alternativaD);
-        rspCorreta1 = findViewById(R.id.rspCorreta1);
         rspCorreta2 = findViewById(R.id.rspCorreta2);
         responder = findViewById(R.id.btnResposta);
 
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Pegando as alternativas e mostrando na tela
         //myRefPergunta.child("0").addValueEventListener(new ValueEventListener() {
-        ValueEventListener valueEventListener = myRefResposta.addValueEventListener(new ValueEventListener() {
+        /*ValueEventListener valueEventListener = */myRefResposta.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot respostaSnapshot) {
 

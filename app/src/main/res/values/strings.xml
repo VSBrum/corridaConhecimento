@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Corrida do Conhecimento</string>
+    <string name="app_name">Race Quiz</string>
+    <string name="responder">Responder</string>
+    <string name="pergunta">Pergunta:</string>
 </resources>
