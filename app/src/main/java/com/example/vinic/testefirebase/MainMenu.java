@@ -26,7 +26,6 @@ public class MainMenu extends AppCompatActivity {
 
     Button comecar;
     RadioButton statusBluetooth;
-    List <String> x;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +36,10 @@ public class MainMenu extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         statusBluetooth = findViewById(R.id.statusBluetooth);
-
         statusBluetooth.setEnabled(false);
-
         comecar = findViewById(R.id.btnComecar);
-        /*Botão para ir para tela de pergunta e resposta, falta implementar o POST para o web service avisando que foi conectado
-        e tratar para que so deixei iniciar quando tiver um carrinho conecado*/
+
+        //Botão para ir para tela de pergunta e resposta
         comecar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +55,6 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        //comecar.setEnabled(false);
         return true;
     }
 
@@ -67,10 +63,11 @@ public class MainMenu extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.conectar: {
-                if (ToothReadWrite.statusTooth() != true) {
+                if (!ToothReadWrite.statusTooth()) {
                     liga_bluetooth();
-                    //comecar.setEnabled(false);
+                    comecar.setEnabled(false);
                 } else {
+                    comecar.setEnabled(true);
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Dispositivos Pareados");
                     final EditText input = new EditText(this);
@@ -104,17 +101,23 @@ public class MainMenu extends AppCompatActivity {
                         }
                     });
                     builder.show();
-                    if(ToothReadWrite.statusTooth()){
-                        statusBluetooth.setEnabled(true);
-                        statusBluetooth.setChecked(true);
-                        statusBluetooth.setText("Conectado");
-                    }
+                    statusBluetooth.setEnabled(true);
+                    statusBluetooth.setChecked(true);
+                    statusBluetooth.setText("Conectado");
                 }
+                break;
+            }
+            case R.id.disconectar: {
+                ToothReadWrite.disconnect();
+                statusBluetooth.setEnabled(false);
+                statusBluetooth.setChecked(false);
+                statusBluetooth.setText("Desconectado");
                 break;
             }
         }
         return true;
     }
+
     public void liga_bluetooth() {
         if (!ToothReadWrite.statusTooth()) {
             Intent liga_blu_intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);

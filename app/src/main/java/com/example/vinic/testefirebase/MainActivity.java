@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.Volley;
 import com.android.volley.RequestQueue;
@@ -40,16 +41,14 @@ public class MainActivity extends AppCompatActivity {
     String value;
 
     TextView campoPergunta;
-    TextView rspCorreta2;
+    ImageView imgResposta;
 
     RadioGroup radiogroup;
     RadioButton alternativaA;
     RadioButton alternativaB;
     RadioButton alternativaC;
     RadioButton alternativaD;
-
     Button responder;
-    ImageView imgResposta;
 
     FirebaseDatabase database;
     DatabaseReference myRefPergunta;
@@ -63,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        //(RadioButton)radioGroup.getChildAt(id);
-
         database = FirebaseDatabase.getInstance();
         myRefPergunta = database.getReference("pergunta");
         myRefResposta = database.getReference("respostas");
@@ -75,10 +72,7 @@ public class MainActivity extends AppCompatActivity {
         alternativaB = findViewById(R.id.alternativaB);
         alternativaC = findViewById(R.id.alternativaC);
         alternativaD = findViewById(R.id.alternativaD);
-        rspCorreta2 = findViewById(R.id.rspCorreta2);
         responder = findViewById(R.id.btnResposta);
-
-        imgResposta = findViewById(R.id.imgResposta);
 
         //Pegando a pergunta do firebase e mostrando na tela
         myRefPergunta.child("0").addValueEventListener(new ValueEventListener() {
@@ -96,8 +90,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Pegando as alternativas e mostrando na tela
-        //myRefPergunta.child("0").addValueEventListener(new ValueEventListener() {
-        /*ValueEventListener valueEventListener = */myRefResposta.addValueEventListener(new ValueEventListener() {
+        myRefResposta.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot respostaSnapshot) {
 
@@ -152,12 +145,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
-        //Botão de responder, assim que cllicar muda a cor da certa pra verde e da errada para vermelho, porem precisa ser tratado para voltar a cor assim que mudar a pergunta
-        //Falta implementar o POST para o web service para avisar que a pergunta foi respondida
+        //Botão de responder,mudando a tela de acordo se a resposta esta certa ou errada
         responder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,23 +158,17 @@ public class MainActivity extends AppCompatActivity {
                 // Request a string response from the provided URL.
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
-                            //@SuppressLint("ResourceAsColor")
                             @Override
                             public void onResponse(String response) {
-
                                 if ((alternativaA.isChecked() && gabaritoA.equals("alternativa A")) || (alternativaB.isChecked() && gabaritoB.equals("alternativa B")) ||
-                                    (alternativaC.isChecked() && gabaritoC.equals("alternativa C")) || (alternativaD.isChecked() && gabaritoD.equals("alternativa D"))
-                                     ){
+                                        (alternativaC.isChecked() && gabaritoC.equals("alternativa C")) || (alternativaD.isChecked() && gabaritoD.equals("alternativa D"))
+                                        ) {
                                     ToothReadWrite.WriteBuffer((byte) 1);
-                                    //rspCorreta1.setText(textoRespostCorreta);
                                     Intent rC = new Intent(MainActivity.this, resposta_alternativa_success.class);
                                     startActivity(rC);
-                                    //setContentView(R.layout.resposta_alternativa_success);
                                 } else {
-                                    //rspCorreta2.setText(textoRespostCorreta);
                                     Intent rE = new Intent(MainActivity.this, resposta_alternativa_error.class);
                                     startActivity(rE);
-                                    //setContentView(R.layout.resposta_alternativa_error);
                                 }
                             }
                         }, new Response.ErrorListener() {
@@ -197,5 +182,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
 }
+
+

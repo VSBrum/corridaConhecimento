@@ -38,12 +38,12 @@
     <TextView
         android:id="@+id/campoPergunta"
         android:layout_width="314dp"
-        android:layout_height="171dp"
+        android:layout_height="184dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="124dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:paddingEnd="2dp"
+
         android:paddingStart="2dp"
         android:textColor="@color/Black"
         android:textSize="17sp"
@@ -64,10 +64,10 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.352"
+        app:layout_constraintHorizontal_bias="0.323"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.777">
+        app:layout_constraintVertical_bias="0.83">
 
         <RadioButton
             android:id="@+id/alternativaA"

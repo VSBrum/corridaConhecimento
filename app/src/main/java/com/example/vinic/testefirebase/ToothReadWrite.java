@@ -35,7 +35,8 @@ public class ToothReadWrite {
         if ( aConnectedObject == null ) return;
         try {
             aConnectedObject.close();
-        } catch ( IOException e ) {
+        }
+        catch ( IOException e ) {
         }
         aConnectedObject = null;
     }
@@ -69,8 +70,6 @@ public class ToothReadWrite {
         return adaptador.isEnabled();
     }
 
-
-    //------- ISSO AQUI ERA PRA ESCREVER MAS NAO SEI SE FUNCIONA ------/
     public static void WriteBuffer(String msg)
     {
         byte[] Buffer=msg.getBytes();
@@ -123,6 +122,8 @@ public class ToothReadWrite {
     {
         try {
             btSocket.close();
+            adaptador.disable();
+
         } catch (IOException e)
         {
             e.printStackTrace();
