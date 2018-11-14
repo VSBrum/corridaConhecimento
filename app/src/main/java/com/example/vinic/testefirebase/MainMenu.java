@@ -108,10 +108,12 @@ public class MainMenu extends AppCompatActivity {
                 break;
             }
             case R.id.disconectar: {
-                ToothReadWrite.disconnect();
-                statusBluetooth.setEnabled(false);
-                statusBluetooth.setChecked(false);
-                statusBluetooth.setText("Desconectado");
+                if(statusBluetooth.getText().equals("Conectado")){
+                    ToothReadWrite.disconnect();
+                    statusBluetooth.setEnabled(false);
+                    statusBluetooth.setChecked(false);
+                    statusBluetooth.setText("Desconectado");
+                }
                 break;
             }
         }
