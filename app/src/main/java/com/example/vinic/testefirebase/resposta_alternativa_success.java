@@ -62,6 +62,11 @@ public class resposta_alternativa_success extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        this.moveTaskToBack(true);
+    }
+
 }
 
 

@@ -172,9 +172,11 @@ public class MainActivity extends AppCompatActivity {
                                     ToothReadWrite.WriteBuffer((byte) 1);
                                     Intent rC = new Intent(MainActivity.this, resposta_alternativa_success.class);
                                     startActivity(rC);
+                                    MainActivity.this.finish();
                                 } else {
                                     Intent rE = new Intent(MainActivity.this, resposta_alternativa_error.class);
                                     startActivity(rE);
+                                    MainActivity.this.finish();
                                 }
                             }
                         }, new Response.ErrorListener() {
