@@ -148,6 +148,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*if(!alternativaA.isChecked() && !alternativaB.isChecked() && !alternativaC.isChecked() && !alternativaD.isChecked()){
+            responder.setEnabled(true);
+        }else{
+            responder.setEnabled(false);
+        }*/
+
         //Botão de responder,mudando a tela de acordo se a resposta esta certa ou errada
         responder.setOnClickListener(new View.OnClickListener() {
             @Override

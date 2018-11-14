@@ -28,7 +28,7 @@ public class resposta_alternativa_error extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
-        rspErrada = findViewById(R.id.rspCorreta2);
+        rspErrada = findViewById(R.id.rspCorreta);
 
         databaseE = FirebaseDatabase.getInstance();
         myRefPerguntaE = databaseE.getReference("pergunta");
