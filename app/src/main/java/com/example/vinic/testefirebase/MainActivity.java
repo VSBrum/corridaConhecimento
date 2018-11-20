@@ -182,15 +182,13 @@ public class MainActivity extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //mTextView.setText("Serviço indisponível");
+                        Toast.makeText(getApplicationContext(), "Serviço indisponível", Toast.LENGTH_LONG).show();
                     }
                 });
-// Add the request to the RequestQueue.
+                // Add the request to the RequestQueue.
                 queue.add(stringRequest);
-
             }
         });
-
     }
 }
 

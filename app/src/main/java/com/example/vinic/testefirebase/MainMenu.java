@@ -94,6 +94,9 @@ public class MainMenu extends AppCompatActivity {
                             String[] mac = names[which].toString().split("#");
                             try {
                                 ToothReadWrite.Connect(mac[1].trim());
+                                statusBluetooth.setEnabled(true);
+                                statusBluetooth.setChecked(true);
+                                statusBluetooth.setText("Conectado: " + names[which].toString());
 
                             } catch (Exception e) {
 
@@ -101,9 +104,6 @@ public class MainMenu extends AppCompatActivity {
                         }
                     });
                     builder.show();
-                    statusBluetooth.setEnabled(true);
-                    statusBluetooth.setChecked(true);
-                    statusBluetooth.setText("Conectado");
                 }
                 break;
             }
