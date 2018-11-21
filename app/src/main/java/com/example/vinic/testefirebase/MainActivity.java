@@ -2,8 +2,10 @@ package com.example.vinic.testefirebase;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -33,26 +35,18 @@ public class MainActivity extends AppCompatActivity {
     public static String textoRespostCorreta = "";
     int cont = 1;
 
-    String gabaritoA;
-    String gabaritoB;
-    String gabaritoC;
-    String gabaritoD;
-    String perguntaAnteriror;
-    String value;
+    String gabaritoA,gabaritoB,gabaritoC,gabaritoD,perguntaAnteriror,value;
 
     TextView campoPergunta;
     ImageView imgResposta;
 
+    RadioButton alternativaA,alternativaB,alternativaC,alternativaD;
     RadioGroup radiogroup;
-    RadioButton alternativaA;
-    RadioButton alternativaB;
-    RadioButton alternativaC;
-    RadioButton alternativaD;
     Button responder;
 
+    DatabaseReference myRefPergunta,myRefResposta;
     FirebaseDatabase database;
-    DatabaseReference myRefPergunta;
-    DatabaseReference myRefResposta;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         alternativaC = findViewById(R.id.alternativaC);
         alternativaD = findViewById(R.id.alternativaD);
         responder = findViewById(R.id.btnResposta);
+
 
         //Pegando a pergunta do firebase e mostrando na tela
         myRefPergunta.child("0").addValueEventListener(new ValueEventListener() {
@@ -148,11 +143,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*if(!alternativaA.isChecked() && !alternativaB.isChecked() && !alternativaC.isChecked() && !alternativaD.isChecked()){
-            responder.setEnabled(true);
-        }else{
-            responder.setEnabled(false);
-        }*/
+        alternativaA.setChecked(true);
 
         //Botão de responder,mudando a tela de acordo se a resposta esta certa ou errada
         responder.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +180,21 @@ public class MainActivity extends AppCompatActivity {
                 queue.add(stringRequest);
             }
         });
+    }
+
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Sair do Quizz")
+                .setMessage("Tem certeza que deseja sair da competição?")
+                .setPositiveButton("sim",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finishAffinity();
+                            }
+                        })
+                .setNegativeButton("não", null)
+                .show();
     }
 }
 

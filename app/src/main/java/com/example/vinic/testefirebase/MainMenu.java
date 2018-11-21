@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Set;
@@ -26,6 +27,7 @@ public class MainMenu extends AppCompatActivity {
 
     Button comecar;
     RadioButton statusBluetooth;
+    boolean disconect = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +45,14 @@ public class MainMenu extends AppCompatActivity {
         comecar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(i);
+                if(!ToothReadWrite.statusTooth() || !disconect){
+                    Toast.makeText(getApplicationContext(), "Nenhum dispositivo conectado, favor se conectar com um carrinho", Toast.LENGTH_LONG).show();
+                }else {
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(i);
+                }
             }
         });
-
     }
 
 
@@ -65,9 +70,7 @@ public class MainMenu extends AppCompatActivity {
             case R.id.conectar: {
                 if (!ToothReadWrite.statusTooth()) {
                     liga_bluetooth();
-                    comecar.setEnabled(false);
                 } else {
-                    comecar.setEnabled(true);
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Dispositivos Pareados");
                     final EditText input = new EditText(this);
@@ -94,13 +97,14 @@ public class MainMenu extends AppCompatActivity {
                             String[] mac = names[which].toString().split("#");
                             try {
                                 ToothReadWrite.Connect(mac[1].trim());
-                                statusBluetooth.setEnabled(true);
-                                statusBluetooth.setChecked(true);
-                                statusBluetooth.setText("Conectado: " + names[which].toString());
 
                             } catch (Exception e) {
 
                             }
+                            statusBluetooth.setEnabled(true);
+                            statusBluetooth.setChecked(true);
+                            statusBluetooth.setText("Conectado: " + names[which].toString());
+                            disconect = true;
                         }
                     });
                     builder.show();
@@ -108,7 +112,7 @@ public class MainMenu extends AppCompatActivity {
                 break;
             }
             case R.id.disconectar: {
-                if(statusBluetooth.getText().equals("Conectado")){
+                if(disconect){
                     ToothReadWrite.disconnect();
                     statusBluetooth.setEnabled(false);
                     statusBluetooth.setChecked(false);
